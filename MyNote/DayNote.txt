@@ -1,0 +1,246 @@
+2018.01.29
+1. 修改AndroidManifest中的“package”(包名) 会在gen文件夹下重新生成新的包，包名就是修改后的.
+
+Note 2017.1.24
+
+Socket:
+	1.Socket.BeginReceive(byte[] buffer, int offet, int size, SocketFlags socket_flags, AsyncCallBack callback, object state)
+							||				||			||				||						||						||		
+			接收的数据存储buffer  开始接收数据的位置  接收的数据长度  指定套接字发送    回调函数,接收数据操作完成调用	用户定义的对象,其中包含有关接收																																							
+																	 和接收行为,此枚举									操作的信息,此对象会被传递给EndReceive委托
+																	 具有允许其成员值的
+																	 按位组合的特性。
+
+	2.Shocket.ShutDown(SocketShutdown how);
+	  如果当前使用的是面向连接的Socket,则必须先调用ShutDown方法,然后才能关闭Socket,
+	  这可以确保在已连接的套接字关闭之前,已发送和接收该套接字上的所有数据。
+	  调用Close方法可释放所有与Socket关联的托管资源和非托管资源
+	  
+windows 文件命名规则:文件名不能包含下列字符: \/:*?"<>|	  
+
+Note_2017.12.13
+    1.设计模式:好的设计是如何更容易的应对变化
+        1)命令模式:将一个请求封装成对象,从而使你可用不同的请求对客户端进行参数化;对请求排队或记录请求日志,以及支持可撤销的操作.
+        2)享元模式:
+        
+        
+        
+2017.12.18
+    Unity:
+        1.OnRenderImage:Unity会把当前渲染得到的图像存储在第一个参数对应的源渲染纹理中,通过函数中的一系列操作后,再把目标渲染纹理,即第二个参数对应的渲染纹理显示到屏幕上。
+        我们通常利用Graphics.Blit函数来完成对渲染纹理的处理.
+        
+        Shader:
+            1)struct appdata_img{
+                float4 vertex:POSITION;
+                half2 texcoord:TEXCOORD;
+            };
+
+            2017.12.18
+    Unity Shader:
+    1.边缘检测：该方法可以实现描边效果;
+           原理:利用一些边缘算子对图像进行卷积操作;
+           当对图像中的某个像素进行卷积时,我们会把卷积核的中心放置在该像素上,
+           翻转核之后再依次计算核中每个元素和其覆盖的图像像素值的乘积并求和,得到的结果就是该位置的新像素值。
+           卷积操作:指的是使用一个卷积核对一张图像中的每个像素进行一系列操作;
+           卷积核:通常是一个四方形网格结构,该区域内每个方格都有一个权重值。
+    2.shader 规范语法:杜宇不同的Shader Target ,不同的着色器阶段,我们可以使用的临时寄存器和指令数目都是不同的。
+        Shader Target的等级: #pragma target 2.0 默认的Shader Target等级,相当于Direct3D 9上的Shader Model2.0
+                             #pragma target 3.0 相当于Direct3D 9上的Shader Model 3.0
+                             #pragma target 4.0
+                             #pragma target 5.0
+    3.IgnoreProjector：为true表示忽略Projector组件的投影
+    
+ 2018.02.07
+1.GPU默认是做backface culling(背面剔除)的,GPU只渲染正对屏幕的三角面片,当GPU认为某个三角面片背对屏幕时,直接丢弃该三角面片,不做渲染。
+GPU判断传入的某个三角形是正对屏幕(三个顶点呈顺时针),背对屏幕(呈逆时针)。
+
+ Note 2018.02.09
+
+SkinnedMeshRenderer:它关联了3样东西:1.网格;2.骨骼;3.材质。 
+
+
+Note_2017.12.12
+    Unity
+    1.AssetDataBase:Unity资源管理类,用来进行资源的访问和创建
+        1)CreateAsset(UnityEngine.Object asset,string path):资源创建
+        2）StartAssetEditing:开始资源编辑:开始资源导入,它可以让你把多个资源导入组合成一个更大的导入
+        3）ImportAsset(string path, ImportAssetOptions options):资源导入
+        4）StopAssetEditing：停止资源导入
+        5）LoadAssetAtPath(string path, System.Type type):从路径path加载类型为type的资源 
+        
+        
+Note_2017.12.11
+    1.预处理命令:指示编译器如何处理源代码。
+    2.二，关于GC（.NET的垃圾回收）
+
+        1）分配在栈中的空间变量，一旦出了该变量的作用域就会被CLR立即回收;
+        2）分配在堆里面的对象，当没有任何变量的引用时，这个对象就会被标记为垃圾对象，等待垃圾回收器的回收;
+        3) 静态成员和实例成员的对比：
+
+            ①生命周期不一样
+
+            静态成员只有在程序结束时才会释放，而实例成员没有对象引用时就会释放
+
+            ②内存中存储的位置不一样
+
+            静态成员存放在静态存储区，实例成员在托管堆中。
+
+Note 2017.11.30
+
+C#
+    1.String.Trim(string str):从当前String对象移除所有前导空白字符和尾部空白字符(注意:是移除空白字符而不是空格,该方法不修改原来的字符串而是创建一个新的字符串)
+    
+python:
+    1.cmd命令打开pyDoc文件:python -m pydoc -p 1234, 之后打开浏览器,输入localhost:1234即可在线浏览pydoc
+    2.sys.path.append:sys.path存放已安装的内置模块和第三方模块的搜索路径,
+                      sys.path.append 方法可以临时将自己添加的模块路径加进来,程序运行完就失效
+    3.webbrowser:用于控制和打开web浏览器的接口
+    4.列表生成式:直接创建一个列表,其中可对列表中元素进行操作和判断,循环完再判断 L = [x for x in list]
+    
+    5.isinstance(x,str):判断一个变量是不是字符串,当然也可以判断其它数据类型
+    
+    6.生成器:一边计算(循环)一边计算产生列表,eg:(s*s for s in list)
+    7.iterable:可迭代对象, 可以直接作用于for循环的对象
+      iterator:可以被next()函数调用并不断返回下一个值的对象称为迭代器，他表示一个惰性序列
+      可以通过iter()获得一个iterator对象
+    8.函数式编程就是一种抽象程度很高的编程范式，纯粹的函数式编程语言编写的函数没有变量，因此，任意一个函数，只要输入是确定的，输出就是确定的，
+      这种纯函数我们称之为没有副作用。而允许使用变量的程序设计语言，由于函数内部的变量状态不确定，同样的输入，可能得到不同的输出，因此，这种函数是有副作用的。
+      函数式编程的一个特点就是，允许把函数本身作为参数传入另一个函数，还允许返回一个函数！
+
+      2017.11.31
+   MVC
+ 
+ M->Model->Notifier:Notifier是消息分发的基类,主要负责消息的增减和触发,Model层负责存储收到的数据,以及触发新函数。
+ 
+ V->View:所有的界面都继承View,其中整个界面Win开头继承BaseWindow，Win下的小界面继承BaseTabPanel
+ 
+Message->Bean:数据基础类型,定义需要接收的数据结构，控制数据的收发
+
+
+Mgr:管理数据类/logic:按钮响应事件,注册接收数据事件
+
+
+
+Note 2017.1.24
+
+1.BigEndian and littleEndian:
+  Little-Endian:小端模式,低位字节存放在内存的低地址端,高位字节存放在内存的高地址端
+  Big-Endian:大端模式,低位字节存放在内存的高地址端, 高位字节存放在内存的低地址端
+  eg: 0x1234 :      低地址  高地址
+		小端模式 =>  34		  12
+		大端模式 =>	 12		  34
+  
+2.C#类
+Monitor 类通过向单个线程授予对象锁来控制对对象的访问
+	Monitor.Enter(Object):获取指定对象上的排它锁
+	Monitor.Exit(Object):释放指定对象上的排它锁
+lock是Monitor的语法糖:
+   lock(object) = try{
+						Monitor.Enter(obj);
+						// dosomething();
+					}
+					catch(Exception e){
+						// 捕获异常
+					}
+					finally{
+						Monitor.Exit(obj);
+					}
+					
+Interlocked.CompareExchange(ref int val1, int val, int com)	这个是原子操作,线程安全				
+	:比较两个32位有符号整数是否相等(比较 val1和com),如果相等用val替换val1
+    
+    
+Note 2017.1.23
+
+Vector3:
+
+1.magnitude:向量长度
+	eg:计算两向量距离
+	vector3 v1, v2;
+	vector3 v1Tov2 = v2 - v1;
+	float length = v1Tov2.magnitude;
+	
+Physics:
+
+1.OverlapSphere(vector3 pos, float radius, int layerMask):相交球,返回球型半径内的所有碰撞体信息
+
+
+2017.12.22
+    1.信息熵:离散随机事件的出现概率大小
+    design type:
+    1.prototype:原型模式
+    
+2017.11.22
+Camera:
+1.projection:相机模式
+	Perspective: 透视
+	Orthographic: 正交相机模式
+2.orthographicSize:正交模式下相机的一半尺寸大小	,这个是视体垂直大小的一半
+
+3. 相机平滑缓冲移动:
+eg: 
+vector3 mypos;
+vector3 targetpos;
+vector3 velocity;//相对缓冲减速,作为承载变量,默认赋值为0
+float dampTime;//平滑缓冲时间
+
+Vector3.SmoothDamp(mypos, targetpos, velocity, dampTime);
+
+4. aspect:宽高比
+Transform:
+
+1. InverseTransformPoint(Vector3 pos)
+	将目标点转换为transform为中心点的坐标系的坐标点
+
+Function:
+1.计算2向量的中心点:
+eg: vector3 v1, v2,;
+	vector3 middlePoint = (v1 + v2) / 2
+	推论=> n个点即为: vector3 point = (v1 + v2 + ... + Vn) / n
+	
+2.计算两向量的相对位置:
+eg: vertor3 v1, v2;
+	vertor3 relativePos;
+	
+	relativatePos = v1 - v2; // 表示一条由v2指向v1的向量
+    
+    
+Note 2017.12.08
+    C#:
+    1.属性访问单一的数据成员;
+      索引器访问多个数据成员。eg: string this[params num]{ // 参数列表可以由多个参数
+                                    get{;}
+                                    set{;}
+                                  }
+    2.赋值兼容性:你可以将派生类对象的实例赋值给基类的变量
+    3.variance:可变性
+      1.1协变:如果派生类只是用于输出值,那么这种结构化的委托有效性之间的常数叫做协变；关键字:out
+      1.2逆变:这种在期望传入基类时允许传入派生对象的特性叫做逆变；关键字:in
+      1.3变化处理的是使用派生类替换基类的安全情况，因此变化只适用于引用类型；
+         显式变化使用in和out关键字只适用于委托和接口，不适用于类、结构和方法
+
+         
+Note 2017.12.05
+    1.软件工程中的一个重要理念就是关注分离（Separation of concern，SoC）。
+    uFrame借助控制反转（IoC）/依赖注入（DI）实现了这种分离，从而进一步实现了MVVM这种模式。且在1.5版本之后，引入了UniRx库，引进了响应式编程的思想。
+    2.OCP原则（开放关闭原则，指设计应该对扩展开放，对修改关闭).
+Note 2017.12.04
+
+Unity:
+     1.Screen.sleepTimeout = SleepTimeout.NeverSleep; // 控制屏幕休眠时间,SleepTimeout.NeverSleep表示永不休眠
+     2.Application.dataPath:获取的是Asset的路径
+     
+     
+2017.12.15
+
+Unity
+    1.ScriptableObject:它表现起来像一个类似材质、纹理等类型的资源,存在于Assets文件夹下,有唯一的实例
+    
+    
+Note 2018.01.03
+
+1.设计模式漫谈:
+    1)单一原则:一个类只负责一个职责;
+    2)里氏替换原则:
+    3)依赖倒置原则:
